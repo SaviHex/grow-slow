@@ -1,0 +1,113 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://core/torch/light_texture.png" type="Texture" id=1]
+[ext_resource path="res://particles/torch/fire_particle.png" type="Texture" id=2]
+[ext_resource path="res://core/torch/torch.png" type="Texture" id=3]
+[ext_resource path="res://core/torch/Torch.gd" type="Script" id=4]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.037037, 0.666667, 0.888889 )
+colors = PoolColorArray( 1, 0.93763, 0.414063, 1, 0.983887, 0.617339, 0.0384331, 1, 0.710449, 0, 0, 1, 0.243164, 0.0275459, 0.155148, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+width = 1024
+
+[sub_resource type="ParticlesMaterial" id=4]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 15.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+color_ramp = SubResource( 3 )
+anim_speed = 1.5
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 20.0
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 3 )
+anim_speed = 1.5
+
+[sub_resource type="Animation" id=8]
+resource_name = "light_up"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:energy")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="Torch" type="Node2D"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 1 )
+texture_scale = 0.5
+color = Color( 0.992157, 0.545098, 0.545098, 1 )
+
+[node name="FireParticle" type="Particles2D" parent="."]
+material = SubResource( 1 )
+position = Vector2( 0, -6 )
+emitting = false
+process_material = SubResource( 4 )
+texture = ExtResource( 2 )
+
+[node name="LightUpParticle" type="Particles2D" parent="."]
+material = SubResource( 1 )
+position = Vector2( 0, -6 )
+emitting = false
+amount = 4
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 7 )
+texture = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/light_up = SubResource( 8 )

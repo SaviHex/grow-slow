@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://fonts/pixel12/pixel12_default.tres" type="DynamicFont" id=1]
+[ext_resource path="res://ui/MainUI/MainUI.gd" type="Script" id=2]
+
+[node name="MainUI" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="TopUI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 0.137
+margin_bottom = -0.142002
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TurnsCounterContainer" type="HBoxContainer" parent="TopUI"]
+anchor_left = 0.034
+anchor_top = 0.14
+anchor_right = 0.976
+anchor_bottom = 0.36
+margin_left = -0.00399971
+margin_top = 4.76837e-07
+margin_right = -0.056015
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TurnsLabel" type="Label" parent="TopUI/TurnsCounterContainer"]
+margin_right = 45.0
+margin_bottom = 11.0
+custom_fonts/font = ExtResource( 1 )
+text = "Turns:"
+
+[node name="TurnsCounter" type="Label" parent="TopUI/TurnsCounterContainer"]
+margin_left = 49.0
+margin_right = 57.0
+margin_bottom = 11.0
+custom_fonts/font = ExtResource( 1 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://ui/action button/ActionButton.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[node name="ActionButton" type="Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 28.0
+margin_right = -27.0
+margin_bottom = -46.0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="button_up" from="." to="." method="_on_ActionButton_button_up"]
+[connection signal="pressed" from="." to="." method="_on_ActionButton_pressed"]
