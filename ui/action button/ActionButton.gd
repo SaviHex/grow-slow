@@ -2,7 +2,7 @@ extends Button
 
 export (String) var action_name: String = ""
 
-func _on_ActionButton_pressed() -> void:
+func _on_ActionButton_pressed() -> void:	
 	var event = InputEventAction.new()
 	event.action = action_name
 	event.pressed = true

@@ -2,24 +2,30 @@ extends Node2D
 
 onready var sprite: Sprite = $Sprite
 onready var anim: AnimationPlayer = $AnimationPlayer
+onready var dry_counter: Label = $DryCounter
 
 var level: int = 0 setget set_level
 
 # How many turns will the plant have water.
-var watered_turns: int = 3
+export(int) var watered_turns: int
 # How many turns can the plant survive w/out water.
-var dry_turns: int = 5
+export(int) var dry_turns: int
 # How many turns (with water) does it take to get to the next level.
-var level_up_turns: int = 5
+export(int) var level_up_turns: int
 
 export(Resource) var fruit
 var min_drops: int = 1
 var max_drops: int = 3
 
 var is_watered: bool = true setget set_is_watered
-var turns_to_level_up: int = (level_up_turns + 1) setget set_turns_to_level_up
-var turns_to_dry: int = (watered_turns + 1) setget set_turns_to_dry
-var turns_to_die: int = (dry_turns + 1) setget set_turns_to_die
+var turns_to_level_up: int setget set_turns_to_level_up
+var turns_to_dry: int setget set_turns_to_dry
+var turns_to_die: int setget set_turns_to_die
+
+func _ready() -> void:
+	self.turns_to_level_up = level_up_turns + 1
+	self.turns_to_dry = watered_turns + 1
+	self.turns_to_die = dry_turns + 1
 
 func _on_Player_turn_ended(turns_passed: int):
 	self.advance_turn()
@@ -68,14 +74,18 @@ func set_turns_to_die(value: int):
 	turns_to_die = value
 	if turns_to_die == 0:
 		die()
+	else:
+		dry_counter.text = str(turns_to_die - 1)
 
 func set_is_watered(value: bool):
 	is_watered = value
 	if is_watered:
 		self.turns_to_dry = self.watered_turns + 1
 		self.turns_to_die = self.dry_turns + 1
+		dry_counter.visible = false
 		$Sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	else:
+		dry_counter.visible = true
 		$Sprite.modulate = Color(0.7, 0.7, 0.7, 1.0)
 
 func get_drops_amount() -> int:

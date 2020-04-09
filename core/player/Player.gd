@@ -11,26 +11,7 @@ var tile_size: int = 16
 
 onready var item_anim: AnimationPlayer = $ItemIcon/ItemIconAnimation
 
-func _ready() -> void:
-	self.grid.connect_player(self)
-
-func _input(event: InputEvent) -> void:
-	# Wait until movement is done 
-	# to listen to the inputs.
-	if is_moving:
-		return
-	
-	if event.is_action_pressed("up"):
-		action_at(Vector2.UP)
-		
-	if event.is_action_pressed("down"):
-		action_at(Vector2.DOWN)
-		
-	if event.is_action_pressed("right"):
-		action_at(Vector2.RIGHT)
-		
-	if event.is_action_pressed("left"):
-		action_at(Vector2.LEFT)
+export(bool) var waste_turn: bool
 
 func action_at(dir: Vector2):
 	var obstacle: Node2D = self.grid.object_at(self.coordinates + dir)
@@ -44,7 +25,7 @@ func action_at(dir: Vector2):
 			interact_with_soil(obstacle)
 		else:
 			print("what is this? --> " + str(obstacle.name))
-			emit_signal("used_turn")
+			end_turn()
 	
 
 func interact_with_soil(soil):
@@ -54,11 +35,11 @@ func interact_with_soil(soil):
 		var plant_chosen = yield(self.grid.main.show_plant_dialog(), "completed")
 		if plant_chosen != "":
 			soil.plant_seed(LoadedScenes.CornScene)
-			emit_signal("used_turn")
+	end_turn()
 
 func bump():
 	anim.play("bump")
-	emit_signal("used_turn")
+	end_turn()
 
 func move_to(dir: Vector2):
 	self.coordinates += dir
@@ -66,13 +47,17 @@ func move_to(dir: Vector2):
 	move_tween.interpolate_property(self, "position", self.position, target, 0.1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	anim.play("walk")
 	move_tween.start()
-	emit_signal("used_turn")
+	end_turn()
 	
 func receive_item(item):
 	self.item_icon.texture = item.icon
 	item_anim.stop()
 	item_anim.play("get_item")
 	print("Player got a " + item.name)
+
+func end_turn():
+	if self.waste_turn:
+		emit_signal("used_turn")
 
 func _on_MoveTween_tween_started(object: Object, key: NodePath) -> void:
 	self.is_moving = true

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://core/plants/Plant.gd" type="Script" id=1]
 [ext_resource path="res://core/plants/watering_can.png" type="Texture" id=2]
+[ext_resource path="res://fonts/pixel12/Pixel12x10.ttf" type="DynamicFontData" id=3]
 
-[sub_resource type="ParticlesMaterial" id=2]
+[sub_resource type="ParticlesMaterial" id=1]
 flag_disable_z = true
 direction = Vector3( 0, 1, 0 )
 spread = 15.0
@@ -14,8 +15,7 @@ orbit_velocity_random = 0.0
 scale = 2.0
 color = Color( 0.298039, 0.596078, 0.913725, 1 )
 
-[sub_resource type="Animation" id=1]
-resource_name = "water"
+[sub_resource type="Animation" id=2]
 length = 2.0
 step = 0.05
 tracks/0/type = "value"
@@ -67,6 +67,12 @@ tracks/3/keys = {
 "values": [ false, true, false ]
 }
 
+[sub_resource type="DynamicFont" id=3]
+size = 4
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
 [node name="Plant" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -86,8 +92,20 @@ position = Vector2( 0, -27 )
 emitting = false
 amount = 16
 speed_scale = 1.5
-process_material = SubResource( 2 )
+process_material = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 2.0
-anims/water = SubResource( 1 )
+anims/water = SubResource( 2 )
+
+[node name="DryCounter" type="Label" parent="."]
+visible = false
+margin_left = 4.0
+margin_top = -1.0
+margin_right = 7.0
+margin_bottom = 3.0
+custom_fonts/font = SubResource( 3 )
+text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,16 +1,73 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/controls/arrows.png" type="Texture" id=1]
 [ext_resource path="res://ui/action button/ActionButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/main_theme.tres" type="Theme" id=3]
+[ext_resource path="res://fonts/pixel12/Pixel12x10.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://ui/TimeTravelButton/icons8-time-machine-100-2.png" type="Texture" id=5]
+[ext_resource path="res://ui/action button/ActionButton.gd" type="Script" id=6]
+
+[sub_resource type="DynamicFont" id=3]
+size = 7
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 4 )
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.588235 )
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 1, 1, 0 )
+bg_color = Color( 0.25098, 0.25098, 0.25098, 0 )
 
 [node name="Controls" type="CanvasLayer"]
 layer = 109
+
+[node name="TimeTravelButton" type="Button" parent="."]
+anchor_left = 0.097
+anchor_top = 0.817
+anchor_right = 0.311
+anchor_bottom = 1.033
+margin_left = 0.0179996
+margin_top = -0.0220032
+margin_right = -0.0660095
+margin_bottom = -0.0780029
+theme = ExtResource( 3 )
+clip_text = true
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+action_name = "time_travel"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TimeTravelButton"]
+anchor_left = 0.048
+anchor_top = 0.051
+anchor_right = 0.952
+anchor_bottom = 1.0
+margin_left = -0.0239999
+margin_top = -0.0290003
+margin_right = 0.0239983
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="TimeTravelButton/VBoxContainer"]
+margin_right = 39.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 16, 24 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="TimeTravelButton/VBoxContainer"]
+margin_top = 28.0
+margin_right = 39.0
+margin_bottom = 47.0
+theme = ExtResource( 3 )
+custom_fonts/font = SubResource( 3 )
+text = "Time Travel"
+align = 1
+autowrap = true
 
 [node name="Arrows" type="TextureRect" parent="."]
 modulate = Color( 1, 1, 1, 0.705882 )
@@ -30,6 +87,7 @@ __meta__ = {
 }
 
 [node name="UpButton" parent="Arrows" instance=ExtResource( 2 )]
+show_behind_parent = true
 margin_left = 24.0
 margin_right = -23.0
 custom_styles/pressed = SubResource( 1 )
@@ -62,3 +120,5 @@ margin_bottom = -19.0
 custom_styles/pressed = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
 action_name = "right"
+[connection signal="button_up" from="TimeTravelButton" to="TimeTravelButton" method="_on_ActionButton_button_up"]
+[connection signal="pressed" from="TimeTravelButton" to="TimeTravelButton" method="_on_ActionButton_pressed"]

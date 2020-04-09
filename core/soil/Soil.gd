@@ -10,7 +10,6 @@ func plant_seed(PlantScene: PackedScene):
 	var plant = PlantScene.instance()
 	$PlantContainer.add_child(plant)
 	self.grid.connect("turn_ended", plant, "_on_Player_turn_ended")
-	print(name + ":planted a " + plant.name)
 
 func interact_plant(player):
 	var plant = self.get_plant()
@@ -18,6 +17,11 @@ func interact_plant(player):
 		plant.harvest(player)
 	else:
 		plant.water()
+
+func reset_soil():
+	var plant = get_plant()
+	if plant != null:
+		plant.queue_free()
 
 func has_plant() -> bool:
 	return $PlantContainer.get_child_count() > 0

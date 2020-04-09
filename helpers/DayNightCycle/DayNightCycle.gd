@@ -9,10 +9,8 @@ onready var time_step: float
 
 func _ready() -> void:
 	self.time_step = (1.0 / self.day_turns)
-	print(self.time_step)
 
 func advance_time():
-	print(self.day_value)
 	self.day_value += self.time_step
 
 func set_day_value(value: float):

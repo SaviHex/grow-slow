@@ -2,8 +2,8 @@ extends Node2D
 
 onready var fire_particle: Particles2D = $FireParticle
 onready var light_up_particle: Particles2D = $LightUpParticle
-onready var light: Light2D = $Light2D
 onready var anim: AnimationPlayer = $AnimationPlayer
+onready var light_sprite: Sprite = $LightSprite
 
 export (int) var light_up_at_turn: int = 60
 
@@ -25,5 +25,5 @@ func turn_on():
 	
 func turn_off():
 	is_lit = false
-	light.enabled = false
+	light_sprite.self_modulate = Color.transparent
 	fire_particle.emitting = false

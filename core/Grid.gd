@@ -55,6 +55,21 @@ func _on_Player_used_turn():
 func _on_Pawn_updated_coords(old, new, me):
 	self.grid_data[old.x][old.y] = null
 	self.grid_data[new.x][new.y] = me
+
+func reset_grid():
+	self.turns_passed = 0
+	emit_signal("turn_ended", self.turns_passed)
 	
-func request_choice_menu():
-	pass
+	# Reset Day/Night Cycle
+	self.day_night_cycle.day_value = 0
+	
+	turn_off_lights()
+	reset_soil_tiles()
+	
+func turn_off_lights():
+	for torch in get_tree().get_nodes_in_group("torch"):
+		torch.turn_off()
+	
+func reset_soil_tiles():
+	for soil in $SoilContainer.get_children():
+		soil.reset_soil()

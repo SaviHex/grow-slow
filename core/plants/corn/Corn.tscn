@@ -5,6 +5,9 @@
 [ext_resource path="res://core/fruits/corn/Corn.tres" type="Resource" id=3]
 
 [node name="Corn" instance=ExtResource( 1 )]
+watered_turns = 10
+dry_turns = 20
+level_up_turns = 15
 fruit = ExtResource( 3 )
 
 [node name="Sprite" parent="." index="0"]
